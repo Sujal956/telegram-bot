@@ -21,7 +21,7 @@ from telegram.ext import (
 # ======================================================
 # SETTINGS
 # ======================================================
-
+print("BOT VERSION 2026-08-03")
 BOT_TOKEN = "8691873598:AAEG3lqDr06eHaKOHOWb7lsXNQykZxZ5fTE"
 
 ADMIN_CHAT_ID = 8842963150
