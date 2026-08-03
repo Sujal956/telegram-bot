@@ -11,8 +11,10 @@ services:
 
     envVars:
       - key: BOT_TOKEN
-        sync: 8691873598:AAEG3lqDr06eHaKOHOWb7lsXNQykZxZ5fTE
+        sync: false
+
       - key: ADMIN_CHAT_ID
         value: "8842963150"
+
       - key: PRIVATE_GROUP_LINK
         value: "https://t.me/+dE0mrYkSOG0yZTE1"
