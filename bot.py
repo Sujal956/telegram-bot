@@ -210,9 +210,12 @@ async def button_handler(
 
     query = update.callback_query
 
+try:
     await query.answer()
+except Exception:
+    pass
 
-    user_id = str(query.from_user.id)
+user_id = str(query.from_user.id)
 
     try:
 
