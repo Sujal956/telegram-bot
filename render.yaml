@@ -1,0 +1,18 @@
+services:
+  - type: worker
+    name: telegram-bot
+    runtime: python
+    plan: free
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+
+    autoDeploy: true
+
+    envVars:
+      - key: BOT_TOKEN
+        sync: 8691873598:AAEG3lqDr06eHaKOHOWb7lsXNQykZxZ5fTE
+      - key: ADMIN_CHAT_ID
+        value: "8842963150"
+      - key: PRIVATE_GROUP_LINK
+        value: "https://t.me/+dE0mrYkSOG0yZTE1"
