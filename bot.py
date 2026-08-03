@@ -576,9 +576,22 @@ def main():
             error_handler
         )
 
-        print("✅ BOT RUNNING...")
+       print("✅ BOT RUNNING...")
 
-        app.run_polling()
+import sys
+import telegram
+import asyncio
+
+print("Python:", sys.version)
+print("PTB:", telegram.__version__)
+
+try:
+    loop = asyncio.get_running_loop()
+    print("Running loop:", loop)
+except RuntimeError as e:
+    print("No running loop:", e)
+
+app.run_polling()
 
     except Exception as e:
 
