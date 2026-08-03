@@ -535,30 +535,39 @@ async def error_handler(
 # MAIN
 # ======================================================
 
-
 import asyncio
 
 
 async def main():
 
-    app = Application.builder().token(BOT_TOKEN).build()
+    while True:
 
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(button_handler))
-    app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
-    app.add_handler(
-        MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler)
-    )
+        try:
 
-    app.add_error_handler(error_handler)
+            app = Application.builder().token(BOT_TOKEN).build()
 
-    print("✅ BOT RUNNING...")
+            app.add_handler(CommandHandler("start", start))
+            app.add_handler(CallbackQueryHandler(button_handler))
+            app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
+            app.add_handler(
+                MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler)
+            )
 
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling()
+            app.add_error_handler(error_handler)
 
-    await asyncio.Event().wait()
+            print("✅ BOT RUNNING...")
+
+            await app.initialize()
+            await app.start()
+            await app.updater.start_polling()
+
+            await asyncio.Event().wait()
+
+        except Exception as e:
+
+            logger.error(f"BOT CRASHED: {e}")
+
+            await asyncio.sleep(5)
 
 
 if __name__ == "__main__":
