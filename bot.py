@@ -531,54 +531,34 @@ async def error_handler(
 # ======================================================
 # MAIN
 # ======================================================
-def main():
+import asyncio
+
+async def main():
+
+    app = Application.builder().token(BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_handler))
+    app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
+    app.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler)
+    )
+    app.add_error_handler(error_handler)
+
+    print("✅ BOT RUNNING...")
+
+    await app.initialize()
+    await app.start()
+
+    await app.updater.start_polling()
 
     try:
-
-        app = Application.builder().token(
-            BOT_TOKEN
-        ).build()
-
-        # START
-        app.add_handler(CommandHandler("start", start))
-
-        # BUTTONS
-        app.add_handler(CallbackQueryHandler(button_handler))
-
-        # PHOTOS
-        app.add_handler(MessageHandler(filters.PHOTO, photo_handler))
-
-        # OTHER TEXT
-        app.add_handler(
-            MessageHandler(
-                filters.TEXT & ~filters.COMMAND,
-                message_handler
-            )
-        )
-
-        # ERROR HANDLER
-        app.add_error_handler(error_handler)
-
-        print("✅ BOT RUNNING...")
-
-        import sys
-        import telegram
-        import asyncio
-
-        print("Python:", sys.version)
-        print("PTB:", telegram.__version__)
-
-        try:
-            loop = asyncio.get_running_loop()
-            print("Running loop:", loop)
-        except RuntimeError as e:
-            print("No running loop:", e)
-
-        app.run_polling()
-
-    except Exception as e:
-        logger.error(f"MAIN ERROR: {e}")
+        await asyncio.Event().wait()
+    finally:
+        await app.updater.stop()
+        await app.stop()
+        await app.shutdown()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
