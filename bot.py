@@ -531,9 +531,8 @@ async def error_handler(
 # ======================================================
 # MAIN
 # ======================================================
-import asyncio
 
-async def main():
+def main():
 
     app = Application.builder().token(BOT_TOKEN).build()
 
@@ -543,22 +542,15 @@ async def main():
     app.add_handler(
         MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler)
     )
+
     app.add_error_handler(error_handler)
 
     print("✅ BOT RUNNING...")
 
-    await app.initialize()
-    await app.start()
-
-    await app.updater.start_polling()
-
-    try:
-        await asyncio.Event().wait()
-    finally:
-        await app.updater.stop()
-        await app.stop()
-        await app.shutdown()
+    app.run_polling(
+        drop_pending_updates=True
+    )
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
